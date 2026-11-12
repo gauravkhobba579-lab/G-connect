@@ -1,0 +1,16 @@
+{
+  "name": "G-Connect",
+  "short_name": "G-Connect",
+  "description": "G-Connect Social Media App",
+  "start_url": "/G-connect/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "https://flaticon.com",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
