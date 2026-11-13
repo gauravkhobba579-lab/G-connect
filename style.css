@@ -1,0 +1,180 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #0f0c1b;
+    color: #ffffff;
+    padding-bottom: 70px;
+}
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(15, 12, 27, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.username {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    margin-left: 15px;
+    cursor: pointer;
+    color: white;
+}
+
+/* App Container */
+.app-container {
+    padding: 15px;
+}
+
+/* Stories */
+.stories-container {
+    margin-bottom: 20px;
+}
+
+.story-card {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.story-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.story-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(15, 12, 27, 0.9));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-story-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    background: #9d4edd;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Feed Card */
+.feed-card {
+    background: #1a162b;
+    border-radius: 20px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-details h4 {
+    font-size: 0.95rem;
+}
+
+.user-details p {
+    font-size: 0.8rem;
+    color: #a0a0a0;
+}
+
+.card-image {
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    height: 300px;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.action-btn {
+    background: #241e3a;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
+    background: #141124;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #241e3a;
+    z-index: 100;
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    color: #8a8a8a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.nav-item.active {
+    color: #9d4edd;
+}
+
+.nav-icon {
+    font-size: 1.3rem;
+    margin-bottom: 2px;
+}
