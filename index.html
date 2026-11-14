@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-Connect</title>
+    <link rel="manifest" href="manifest.json">
+    <!-- FontAwesome Icons for Instagram-like feel -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #fafafa; color: #262626; display: flex; flex-direction: column; align-index: center; padding-bottom: 60px; }
+        
+        /* Header */
+        .header { background: white; border-bottom: 1px solid #dbdbdb; width: 100%; max-width: 500px; height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; position: sticky; top: 0; z-index: 100; margin: 0 auto; }
+        .header h1 { font-size: 22px; font-weight: 700; font-style: italic; color: #262626; }
+        
+        /* Feed container */
+        .feed { width: 100%; max-width: 500px; margin: 0 auto; padding-top: 10px; }
+        
+        /* Post Styling */
+        .post { background: white; border: 1px solid #dbdbdb; margin-bottom: 24px; border-radius: 3px; }
+        .post-header { display: flex; align-items: center; justify-content: space-between; padding: 12px; }
+        .user-info { display: flex; align-items: center; gap: 10px; }
+        .avatar { width: 32px; height: 32px; background: #dbdbdb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; }
+        .username { font-weight: 600; font-size: 14px; }
+        
+        /* Post Media (Image/Video) */
+        .post-media { width: 100%; max-height: 500px; object-fit: cover; background: #efefef; display: block; }
+        
+        /* Post Actions */
+        .post-actions { display: flex; justify-content: space-between; padding: 12px; font-size: 24px; }
+        .left-actions { display: flex; gap: 16px; }
+        .fa-heart { cursor: pointer; transition: transform 0.1s ease; }
+        .fa-heart.liked { color: #ed4956; }
+        .delete-btn { color: #ed4956; font-size: 14px; cursor: pointer; font-weight: 600; background: none; border: none; }
+        
+        /* Post Content */
+        .post-caption { padding: 0 12px 12px 12px; font-size: 14px; }
+        .likes-count { font-weight: 600; margin-bottom: 6px; }
+        
+        /* Bottom Navigation Bar */
+        .nav-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 500px; height: 50px; background: white; border-top: 1px solid #dbdbdb; display: flex; justify-content: space-around; align-items: center; font-size: 22px; z-index: 100; }
+        .nav-bar label, .nav-bar i { cursor: pointer; color: #262626; }
+        #file-upload { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Top Header -->
+    <div class="header">
+        <h1>G-Connect</h1>
+        <i class="fab fa-instagram-messenger" style="font-size: 22px;"></i>
+    </div>
+
+    <!-- Main Feed Area -->
+    <div class="feed" id="feed-container">
+        <!-- Default Demo Post -->
+        <div class="post" id="demo-post">
+            <div class="post-header">
+                <div class="user-info">
+                    <div class="avatar">G</div>
+                    <span class="username">gaurav_khobba</span>
+                </div>
+                <button class="delete-btn" onclick="deletePost('demo-post')">Delete</button>
+            </div>
+            <div style="height: 300px; display: flex; justify-content: center; align-items: center; background: #f0f0f0; color: #8e8e8e; font-size: 14px;">
+                यहाँ आपकी पहली रील/फोटो दिखेगी
+            </div>
+            <div class="post-actions">
+                <div class="left-actions">
+                    <i class="far fa-heart" onclick="toggleLike(this)"></i>
+                    <i class="far fa-comment"></i>
+                    <i class="far fa-paper-plane"></i>
+                </div>
+                <i class="far fa-bookmark"></i>
+            </div>
+            <div class="post-caption">
+                <div class="likes-count"><span class="count">0</span> likes</div>
+                <p><strong>gaurav_khobba</strong> G-Connect पर मेरी पहली पोस्ट! #GConnect</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar (With Reel Upload Button) -->
+    <div class="nav-bar">
+        <i class="fas fa-home"></i>
+        <i class="fas fa-search"></i>
+        <!-- Hidden file selector connected to Plus icon -->
+        <label for="file-upload"><i class="far fa-plus-square"></i></label>
+        <input type="file" id="file-upload" accept="image/*,video/*" onchange="createNewPost(event)">
+        <i class="fas fa-video"></i>
+        <i class="far fa-user"></i>
+    </div>
+
+    <script>
+        // Like Button Function
+        function toggleLike(element) {
+            element.classList.toggle('fas'); // Filled heart
+            element.classList.toggle('far'); // Empty heart
+            element.classList.toggle('liked');
+            
+            let likesContainer = element.closest('.post').querySelector('.count');
+            let currentLikes = parseInt(likesContainer.innerText);
+            if(element.classList.contains('liked')) {
+                likesContainer.innerText = currentLikes + 1;
+            } else {
+                likesContainer.innerText = currentLikes - 1;
+            }
+        }
+
+        // Delete Button Function
+        function deletePost(postId) {
+            if(confirm("क्या आप इस पोस्ट को डिलीट करना चाहते हैं?")) {
+                document.getElementById(postId).remove();
+            }
+        }
+
+        // Feature to create a temporary post locally when you select a photo/video
+        function createNewPost(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+
+            let fileURL = URL.createObjectURL(file);
+            let uniqueId = 'post-' + Date.now();
+            let mediaHtml = '';
+
+            if (file.type.startsWith('video/')) {
+                mediaHtml = `<video class="post-media" src="${fileURL}" controls autoplay loop muted></video>`;
+            } else {
+                mediaHtml = `<img class="post-media" src="${fileURL}" alt="Uploaded file">`;
+            }
+
+            let newPostHtml = `
+                <div class="post" id="${uniqueId}">
+                    <div class="post-header">
+                        <div class="user-info">
+                            <div class="avatar">U</div>
+                            <span class="username">my_account</span>
+                        </div>
+                        <button class="delete-btn" onclick="deletePost('${uniqueId}')">Delete</button>
+                    </div>
+                    ${mediaHtml}
+                    <div class="post-actions">
+                        <div class="left-actions">
+                            <i class="far fa-heart" onclick="toggleLike(this)"></i>
+                            <i class="far fa-comment"></i>
+                            <i class="far fa-paper-plane"></i>
+                        </div>
+                        <i class="far fa-bookmark"></i>
+                    </div>
+                    <div class="post-caption">
+                        <div class="likes-count"><span class="count">0</span> likes</div>
+                        <p><strong>my_account</strong> नई रील/फोटो अपलोड की गई! 🚀</p>
+                    </div>
+                </div>
+            `;
+
+            let feed = document.getElementById('feed-container');
+            feed.insertAdjacentHTML('afterbegin', newPostHtml);
+            event.target.value = ''; // Reset input
+        }
+    </script>
+</body>
+</html>
