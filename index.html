@@ -41,4 +41,46 @@
   <script src="script.js"></script>
 </body>
   </html>
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-connect Notes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- डार्क मोड बटन -->
+    <button id="theme-toggle">🌙 Dark Mode</button>
+
+    <div class="container">
+        <div class="card">
+            <h2>Create Note</h2>
+            <input type="text" id="note-title" placeholder="Enter note title">
+            <textarea id="note-text" placeholder="Write your notes here..." rows="6"></textarea>
+            <div class="btn-group">
+                <button id="save-btn" class="btn btn-primary">Save Note</button>
+                <button id="clear-btn" class="btn btn-secondary">Clear</button>
+            </div>
+        </div>
+
+        <h2>My Notes</h2>
+        <input type="text" id="search-notes" placeholder="Search notes...">
+        <div id="notes-container">
+            <p id="no-notes">No notes found.</p>
+        </div>
+
+        <div class="card backup-section">
+            <h2>Local Backup</h2>
+            <div class="btn-group">
+                <button id="download-btn" class="btn btn-primary">Download Backup</button>
+                <button id="restore-btn" class="btn btn-secondary">Restore Backup</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+    </html>
+
