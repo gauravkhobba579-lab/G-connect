@@ -206,3 +206,34 @@ searchInput.addEventListener("input", showNotes);
 
 // Start app
 showNotes();
+/* डार्क मोड बटन की स्टाइल */
+#theme-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-weight: bold;
+    z-index: 1000;
+}
+
+/* डार्क थीम एक्टिव होने पर रंगों में बदलाव */
+body.dark-theme {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+}
+body.dark-theme .card, 
+body.dark-theme input, 
+body.dark-theme textarea {
+    background-color: #1e1e1e !important;
+    color: #ffffff !important;
+    border-color: #333 !important;
+}
+body.dark-theme #theme-toggle {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+                     }
