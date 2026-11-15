@@ -1,0 +1,121 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f7ff;
+  color: #172033;
+}
+
+header {
+  background: linear-gradient(135deg, #1769e8, #4b91ff);
+  color: white;
+  padding: 25px 18px;
+  border-radius: 0 0 25px 25px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+header p {
+  margin-bottom: 0;
+}
+
+main {
+  max-width: 800px;
+  margin: auto;
+  padding: 16px;
+}
+
+section {
+  margin-bottom: 22px;
+}
+
+.editor,
+.backup {
+  background: white;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 3px 12px #0000000c;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 13px;
+  margin-bottom: 10px;
+  border: 1px solid #dce5f2;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+button {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #1769e8;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 3px;
+}
+
+.secondary {
+  background: #eaf2ff;
+  color: #1769e8;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  margin: 12px 0;
+  box-shadow: 0 3px 12px #0000000c;
+  overflow-wrap: anywhere;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.card p {
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.card small {
+  color: #718096;
+}
+
+.delete {
+  background: #e53935;
+}
+
+.backup {
+  background: #e5efff;
+}
+
+#fileInput {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 24px;
+  }
+
+  button {
+    padding: 11px 13px;
+  }
+  }
