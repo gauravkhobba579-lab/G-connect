@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1769e8">
+  <title>My Notes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>📝 My Notes</h1>
+    <p>Your personal notes app</p>
+  </header>
+
+  <main>
+    <section class="editor">
+      <h2 id="editorHeading">Create Note</h2>
+      <input id="title" placeholder="Enter note title">
+      <textarea id="content" placeholder="Write your notes here..."></textarea>
+      <button id="saveBtn">Save Note</button>
+      <button id="clearBtn" class="secondary">Clear</button>
+    </section>
+
+    <section>
+      <h2>My Notes</h2>
+      <input id="search" placeholder="Search notes...">
+      <div id="notes"></div>
+    </section>
+
+    <section class="backup">
+      <h2>Local Backup</h2>
+      <button id="backupBtn">Download Backup</button>
+      <button id="restoreBtn" class="secondary">Restore Backup</button>
+      <input id="fileInput" type="file" accept=".json" hidden>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+  </html>
+  
