@@ -560,3 +560,330 @@ body.dark .editor textarea {
   }
     }
 <link rel="stylesheet" href="style.css">
+
+/* ==================================
+   MY NOTES - PURPLE & WHITE THEME
+================================== */
+
+:root {
+  --purple: #7650e8;
+  --purple-dark: #5935c9;
+  --purple-light: #eee8ff;
+  --white: #ffffff;
+  --bg: #f8f6ff;
+  --text: #29213e;
+  --muted: #89839d;
+  --border: #e9e3f5;
+  --shadow: 0 8px 25px rgba(100, 65, 190, 0.10);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* HEADER */
+
+header,
+.top-header,
+.app-header {
+  background: linear-gradient(120deg, #a98aff, #7040dc);
+  color: white;
+  padding: 25px;
+  box-shadow: var(--shadow);
+}
+
+h1, h2, h3 {
+  color: var(--text);
+}
+
+header h1,
+.top-header h1,
+.app-header h1 {
+  color: white;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+/* MAIN CONTAINER */
+
+.container,
+.app-container,
+.main-content {
+  padding: 25px;
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* SIDEBAR */
+
+.sidebar,
+aside {
+  background: white;
+  border-right: 1px solid var(--border);
+  padding: 22px;
+}
+
+.sidebar a,
+.sidebar button,
+aside a,
+aside button {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin: 7px 0;
+  border: none;
+  border-radius: 12px;
+  text-align: left;
+  text-decoration: none;
+  color: var(--text);
+  background: transparent;
+  cursor: pointer;
+}
+
+.sidebar a:hover,
+.sidebar button:hover,
+aside a:hover,
+aside button:hover {
+  background: var(--purple-light);
+  color: var(--purple-dark);
+}
+
+/* BUTTONS */
+
+button,
+.btn,
+.add-btn,
+.save-btn {
+  background: var(--purple);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+}
+
+button:hover,
+.btn:hover,
+.add-btn:hover,
+.save-btn:hover {
+  background: var(--purple-dark);
+  transform: translateY(-2px);
+}
+
+/* INPUTS */
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  color: var(--text);
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(118, 80, 232, .12);
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+/* SEARCH */
+
+.search-box,
+.search-container {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 10px 15px;
+  box-shadow: var(--shadow);
+}
+
+/* NOTE CARDS */
+
+.note-card,
+.note,
+.notes-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  padding: 20px;
+  margin: 12px 0;
+  box-shadow: var(--shadow);
+  transition: .25s;
+}
+
+.note-card:hover,
+.note:hover,
+.notes-card:hover {
+  transform: translateY(-4px);
+  border-color: #b69aff;
+  box-shadow: 0 12px 30px rgba(100, 65, 190, .15);
+}
+
+.note-card h3,
+.note h3,
+.notes-card h3 {
+  color: var(--purple-dark);
+  margin-bottom: 10px;
+}
+
+.note-card p,
+.note p,
+.notes-card p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* EDITOR */
+
+.editor,
+.note-editor {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  margin-bottom: 25px;
+}
+
+/* ACTIVE MENU */
+
+.active,
+.active-link,
+.selected {
+  background: var(--purple-light) !important;
+  color: var(--purple-dark) !important;
+}
+
+/* LABELS */
+
+.badge,
+.tag,
+.category {
+  display: inline-block;
+  background: var(--purple-light);
+  color: var(--purple-dark);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* FOOTER */
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b69aff;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1edff;
+}
+
+/* MOBILE DESIGN */
+
+@media (max-width: 768px) {
+
+  .container,
+  .app-container,
+  .main-content {
+    padding: 15px;
+  }
+
+  header,
+  .top-header,
+  .app-header {
+    padding: 20px 15px;
+  }
+
+  header h1,
+  .top-header h1,
+  .app-header h1 {
+    font-size: 25px;
+  }
+
+  .sidebar,
+  aside {
+    padding: 12px;
+  }
+
+  .note-card,
+  .note,
+  .notes-card {
+    padding: 16px;
+  }
+
+  button {
+    padding: 11px 15px;
+  }
+}
+
+/* DARK MODE */
+
+body.dark {
+  --bg: #171326;
+  --white: #211b35;
+  --text: #f5f0ff;
+  --muted: #b8accd;
+  --border: #39304f;
+  --purple-light: #352650;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body.dark .sidebar,
+body.dark aside,
+body.dark .note-card,
+body.dark .note,
+body.dark .notes-card,
+body.dark .editor,
+body.dark .note-editor,
+body.dark input,
+body.dark textarea,
+body.dark select,
+body.dark .search-box,
+body.dark .search-container {
+  background: #211b35;
+  color: #f5f0ff;
+  border-color: var(--border);
+}
+
+body.dark h1,
+body.dark h2,
+body.dark h3 {
+  color: #f5f0ff;
+}
+
