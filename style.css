@@ -1,0 +1,143 @@
+
+/* MY NOTES - PURPLE & WHITE THEME */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #7c3aed;
+    --dark-purple: #5b21b6;
+    --light-purple: #f3e8ff;
+    --white: #ffffff;
+    --text: #24143b;
+    --gray: #8b8496;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f8f5ff;
+    color: var(--text);
+}
+
+/* HEADER */
+header {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: white;
+    padding: 22px;
+    border-radius: 0 0 25px 25px;
+}
+
+header h1 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+header p {
+    margin-top: 7px;
+    color: #f3e8ff;
+}
+
+/* MAIN CONTAINER */
+.container {
+    padding: 20px;
+    max-width: 700px;
+    margin: auto;
+}
+
+/* SEARCH */
+input, textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #e9d5ff;
+    border-radius: 14px;
+    outline: none;
+    background: white;
+    font-size: 15px;
+    margin: 10px 0;
+}
+
+input:focus, textarea:focus {
+    border: 2px solid var(--primary);
+}
+
+/* BUTTON */
+button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 13px 22px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: var(--dark-purple);
+}
+
+/* NOTES CARD */
+.note, .note-card {
+    background: white;
+    padding: 18px;
+    margin: 15px 0;
+    border-radius: 18px;
+    border: 1px solid #eee3ff;
+    box-shadow: 0 5px 18px rgba(124, 58, 237, 0.08);
+}
+
+.note h3, .note-card h3 {
+    color: var(--dark-purple);
+    margin-bottom: 10px;
+}
+
+/* HEADINGS */
+h2 {
+    color: var(--dark-purple);
+    margin: 20px 0 12px;
+}
+
+/* LINKS */
+a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* BOTTOM NAVIGATION */
+nav {
+    background: white;
+    padding: 16px;
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #eee3ff;
+}
+
+nav a {
+    color: var(--primary);
+    font-weight: bold;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c084fc;
+    border-radius: 10px;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+}
+                                
