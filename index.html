@@ -1,109 +1,291 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#7040ed">
-  <title>My Notes - Personal Notebook</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Notes - Personal Notebook</title>
+    <style>
+        :root {
+            --bg-color: #f4f6fa;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --primary-color: #6366f1;
+            --nav-active: #e2e8f0;
+        }
+
+        body.dark {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f1f5f9;
+            --border-color: #334155;
+            --primary-color: #818cf8;
+            --nav-active: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 16px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 { margin: 0; font-size: 26px; }
+
+        .theme-btn {
+            background: none; border: none; font-size: 24px; cursor: pointer; outline: none;
+        }
+
+        .editor-box {
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .editor-box input, .editor-box textarea, .editor-box select {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .editor-box textarea { height: 100px; resize: none; }
+
+        .editor-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn {
+            background: var(--primary-color);
+            color: white; border: none; padding: 10px 18px;
+            border-radius: 10px; font-weight: bold; cursor: pointer;
+        }
+
+        .btn-secondary { background: #64748b; }
+
+        .controls-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .controls-bar input, .controls-bar select {
+            flex: 1; padding: 10px; border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg); color: var(--text-color);
+            outline: none;
+        }
+
+        .nav-bar {
+            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px;
+        }
+
+        .nav-btn, .notebook-btn {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            color: var(--text-color); padding: 8px 16px; border-radius: 20px;
+            font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap;
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        .nav-btn.active, .notebook-btn.selected {
+            background: var(--nav-active); font-weight: bold;
+        }
+
+        .notebook-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+        .notes-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .notes-grid { grid-template-columns: 1fr; }
+        }
+
+        .note-card {
+            background: var(--card-bg);
+            border-radius: 16px; padding: 14px;
+            border-left: 6px solid var(--note-color, #6366f1);
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+
+        .note-card h3 { margin: 0 0 6px 0; font-size: 16px; }
+        .note-card p { margin: 0 0 12px 0; font-size: 13px; color: #64748b; line-height: 1.4; white-space: pre-wrap; }
+
+        .note-meta {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 11px; color: #94a3b8; border-top: 1px solid var(--border-color); padding-top: 8px;
+        }
+
+        .note-actions { display: flex; gap: 4px; }
+        .action-btn { background: none; border: none; cursor: pointer; font-size: 14px; padding: 2px; }
+
+        .empty-state { text-align: center; padding: 40px 0; color: #94a3b8; }
+    </style>
 </head>
 <body>
 
-<header class="top-header">
-  <div class="brand">
-    <div class="brand-icon">📝</div>
-    <div>
-      <h1>My Notes</h1>
-      <p>Your personal notebook ✨</p>
-    </div>
-  </div>
-
-  <div class="header-actions">
-    <button id="themeBtn" class="theme-btn" aria-label="Change theme">🌙</button>
-    <div class="avatar">G</div>
-  </div>
-</header>
-
-<div class="app-layout">
-
-  <aside class="sidebar">
-    <nav class="menu">
-      <button class="nav-btn active" data-filter="all">🏠 All Notes</button>
-      <button class="nav-btn" data-filter="pinned">📌 Pinned</button>
-      <button class="nav-btn" data-filter="recent">🕒 Recent</button>
-    </nav>
-
-    <div class="notebook-heading">
-      <h3>Notebooks</h3>
-      <button id="addNotebook" aria-label="Add notebook">＋</button>
+<div class="container">
+    <div class="header">
+        <h1>Notes <span id="noteCount">(0)</span></h1>
+        <button id="themeBtn" class="theme-btn">🌙</button>
     </div>
 
-    <div id="notebookList" class="notebook-list"></div>
-
-    <div class="motivation">
-      <div>🚀</div>
-      <p>Keep writing...</p>
-      <p>You're doing great!</p>
-      ❤️
-    </div>
-  </aside>
-
-  <main class="main-content">
-
-    <div class="search-box">
-      <span>🔍</span>
-      <input id="searchInput" type="search"
-        placeholder="Search notes...">
-    </div>
-
-    <section class="editor">
-      <div class="editor-title">
-        <span class="edit-icon">✎</span>
-        <input id="noteTitle" type="text"
-          placeholder="Note Title..." maxlength="120">
-      </div>
-
-      <textarea id="noteContent"
-        placeholder="Write your thoughts..."></textarea>
-
-      <div class="editor-bottom">
-        <select id="noteNotebook" aria-label="Select notebook"></select>
-
-        <div class="editor-buttons">
-          <button id="cancelEdit" class="cancel-btn" hidden>Cancel</button>
-          <button id="saveNote" class="save-btn">＋ Save Note</button>
+    <div class="editor-box">
+        <input type="text" id="noteTitle" placeholder="शीर्षक (Title)...">
+        <textarea id="noteContent" placeholder="अपनी बातें यहाँ लिखें (Write thoughts)..."></textarea>
+        <select id="noteNotebook"></select>
+        <div class="editor-actions">
+            <button id="cancelEdit" class="btn btn-secondary" hidden>Cancel</button>
+            <button id="saveNote" class="btn">＋ Save Note</button>
         </div>
-      </div>
-    </section>
-
-    <div class="collection-heading">
-      <h2>📄 <span id="collectionTitle">My Notes</span>
-        <span id="noteCount">(0)</span>
-      </h2>
-
-      <select id="sortNotes" aria-label="Sort notes">
-        <option value="newest">Newest First</option>
-        <option value="oldest">Oldest First</option>
-        <option value="az">A to Z</option>
-      </select>
     </div>
 
-    <section id="notesGrid" class="notes-grid"></section>
+    <div class="controls-bar">
+        <input type="text" id="searchInput" placeholder="खोजें (Search notes)...">
+        <select id="sortNotes">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="title">A to Z</option>
+        </select>
+    </div>
+
+    <div class="nav-bar">
+        <button class="nav-btn active" data-filter="all">🏠 All Notes</button>
+        <button class="nav-btn" data-filter="pinned">📌 Pinned</button>
+        <button class="nav-btn" data-filter="recent">🕒 Recent</button>
+        <button id="addNotebook" class="nav-btn">＋ New Notebook</button>
+    </div>
+
+    <div class="nav-bar" id="notebookList" style="margin-top: -10px;"></div>
+
+    <h2 id="collectionTitle" style="font-size: 18px; margin-bottom: 12px;">My Notes</h2>
 
     <div id="emptyState" class="empty-state">
-      <div>📝</div>
-      <h3>No notes yet</h3>
-      <p>Write your first note and save it here!</p>
+        <div style="font-size: 40px; margin-bottom: 8px;">📝</div>
+        <b>No notes found</b>
     </div>
 
-  </main>
+    <div id="notesGrid" class="notes-grid" hidden></div>
 </div>
 
-<footer>
-  Made with ❤️ by <strong>Gaurav Khobba</strong>
-</footer>
+<script>
+const $ = id => document.getElementById(id);
+const COLORS = ["#a477ff", "#4595ff", "#48ce79", "#ffad43", "#fa72b0"];
 
-<script src="script.js"></script>
-</body>
-</html>
+function playNotificationSound(type) {
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        if (type === 'save') {
+            osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+            osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1);
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.25);
+        } else if (type === 'delete') {
+            osc.frequency.setValueAtTime(330, ctx.currentTime);
+            osc.frequency.setValueAtTime(220, ctx.currentTime + 0.08);
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.2);
+        }
+    } catch (e) {
+        console.log("Audio error:", e);
+    }
+}
+
+function load(key, fallback) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key));
+    return value ?? fallback;
+  } catch { return fallback; }
+}
+
+let notes = load("myNotes", []);
+let notebooks = load("myNotebooks", ["Default Notebook"]);
+let editingId = null;
+let currentFilter = "all";
+let currentNotebook = null;
+
+if (!Array.isArray(notes)) notes = [];
+if (!Array.isArray(notebooks) || !notebooks.length) { notebooks = ["Default Notebook"]; }
+
+notes = notes.map((note, index) => ({
+  id: note.id ?? Date.now() + index,
+  title: String(note.title ?? "Untitled"),
+  content: String(note.content ?? ""),
+  pinned: Boolean(note.pinned),
+  notebook: note.notebook || "Default Notebook",
+  color: note.color || COLORS[index % COLORS.length],
+  created: Number(note.created) || Date.now(),
+  updated: Number(note.updated) || Number(note.created) || Date.now()
+}));
+
+function saveData() {
+  localStorage.setItem("myNotes", JSON.stringify(notes));
+  localStorage.setItem("myNotebooks", JSON.stringify(notebooks));
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  })[char]);
+}
+
+function renderNotebooks() {
+  const list = $("notebookList");
+  const select = $("noteNotebook");
+  list.innerHTML = ""; select.innerHTML = "";
+
+  notebooks.forEach((name, index) => {
+    const option = document.createElement("option");
+    option.value = name; option.textContent = name;
+    select.appendChild(option);
+
+    const button = document.createElement("button");
+    button.className = "notebook-btn" + (currentNotebook === name ? " selected" : "");
+    button.innerHTML = `<span class="notebook-dot" style="background:${COLORS[index % COLORS.length]}"></span><span>${escapeHTML(name)}</span>`;
+    button.addEventListener("click", () => {
+      currentNotebook = name; currentFilter = "notebook";
+      updateNavigation(); renderNotes();
+    });
+    list.appendChild(button);
+  });
+  
