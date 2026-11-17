@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#7040ed">
+  <title>My Notes - Personal Notebook</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top-header">
+  <div class="brand">
+    <div class="brand-icon">📝</div>
+    <div>
+      <h1>My Notes</h1>
+      <p>Your personal notebook ✨</p>
+    </div>
+  </div>
+
+  <div class="header-actions">
+    <button id="themeBtn" class="theme-btn" aria-label="Change theme">🌙</button>
+    <div class="avatar">G</div>
+  </div>
+</header>
+
+<div class="app-layout">
+
+  <aside class="sidebar">
+    <nav class="menu">
+      <button class="nav-btn active" data-filter="all">🏠 All Notes</button>
+      <button class="nav-btn" data-filter="pinned">📌 Pinned</button>
+      <button class="nav-btn" data-filter="recent">🕒 Recent</button>
+    </nav>
+
+    <div class="notebook-heading">
+      <h3>Notebooks</h3>
+      <button id="addNotebook" aria-label="Add notebook">＋</button>
+    </div>
+
+    <div id="notebookList" class="notebook-list"></div>
+
+    <div class="motivation">
+      <div>🚀</div>
+      <p>Keep writing...</p>
+      <p>You're doing great!</p>
+      ❤️
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="search-box">
+      <span>🔍</span>
+      <input id="searchInput" type="search"
+        placeholder="Search notes...">
+    </div>
+
+    <section class="editor">
+      <div class="editor-title">
+        <span class="edit-icon">✎</span>
+        <input id="noteTitle" type="text"
+          placeholder="Note Title..." maxlength="120">
+      </div>
+
+      <textarea id="noteContent"
+        placeholder="Write your thoughts..."></textarea>
+
+      <div class="editor-bottom">
+        <select id="noteNotebook" aria-label="Select notebook"></select>
+
+        <div class="editor-buttons">
+          <button id="cancelEdit" class="cancel-btn" hidden>Cancel</button>
+          <button id="saveNote" class="save-btn">＋ Save Note</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="collection-heading">
+      <h2>📄 <span id="collectionTitle">My Notes</span>
+        <span id="noteCount">(0)</span>
+      </h2>
+
+      <select id="sortNotes" aria-label="Sort notes">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+        <option value="az">A to Z</option>
+      </select>
+    </div>
+
+    <section id="notesGrid" class="notes-grid"></section>
+
+    <div id="emptyState" class="empty-state">
+      <div>📝</div>
+      <h3>No notes yet</h3>
+      <p>Write your first note and save it here!</p>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  Made with ❤️ by <strong>Gaurav Khobba</strong>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
