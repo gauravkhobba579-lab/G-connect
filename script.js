@@ -154,6 +154,113 @@ document.addEventListener("DOMContentLoaded", () => {
                     localStorage.setItem("g_pwa_notes", JSON.stringify(notes));
                     renderNotes();
                 };
+let notes = JSON.parse(localStorage.getItem("myNotes")) || [];
+let editId = null;
+
+function saveNote() {
+  let title = document.getElementById("title").value.trim();
+  let content = document.getElementById("content").value.trim();
+
+  if (!title || !content) {
+    alert("Please enter title and content!");
+    return;
+  }
+
+  if (editId !== null) {
+    let note = notes.find(n => n.id === editId);
+    note.title = title;
+    note.content = content;
+    editId = null;
+  } else {
+    notes.unshift({
+      id: Date.now(),
+      title,
+      content,
+      pinned: false
+    });
+  }
+
+  document.getElementById("title").value = "";
+  document.getElementById("content").value = "";
+
+  saveData();
+  renderNotes();
+}
+
+function saveData() {
+  localStorage.setItem("myNotes", JSON.stringify(notes));
+}
+
+function escapeHTML(value) {
+  return value.replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function renderNotes(list = notes) {
+  let area = document.getElementById("notes");
+  area.innerHTML = "";
+
+  [...list]
+    .sort((a, b) => Number(b.pinned) - Number(a.pinned))
+    .forEach(note => {
+      area.innerHTML += `
+        <div class="note">
+          <h3>${escapeHTML(note.title)} ${note.pinned ? "📌" : ""}</h3>
+          <p>${escapeHTML(note.content)}</p>
+          <button onclick="editNote(${note.id})">Edit</button>
+          <button class="pin" onclick="pinNote(${note.id})">Pin</button>
+          <button class="delete" onclick="deleteNote(${note.id})">Delete</button>
+        </div>
+      `;
+    });
+}
+
+function editNote(id) {
+  let note = notes.find(n => n.id === id);
+  document.getElementById("title").value = note.title;
+  document.getElementById("content").value = note.content;
+  editId = id;
+  window.scrollTo(0, 0);
+}
+
+function deleteNote(id) {
+  if (confirm("Delete this note?")) {
+    notes = notes.filter(n => n.id !== id);
+    saveData();
+    renderNotes();
+  }
+}
+
+function pinNote(id) {
+  let note = notes.find(n => n.id === id);
+  note.pinned = !note.pinned;
+  saveData();
+  renderNotes();
+}
+
+function showAll() {
+  renderNotes();
+}
+
+function showPinned() {
+  renderNotes(notes.filter(n => n.pinned));
+}
+
+document.getElementById("search").addEventListener("input", function() {
+  let q = this.value.toLowerCase();
+  renderNotes(notes.filter(n =>
+    n.title.toLowerCase().includes(q) ||
+    n.content.toLowerCase().includes(q)
+  ));
+});
+
+renderNotes();
+                
                 reader.readAsText(file);
             };
             input.click();
