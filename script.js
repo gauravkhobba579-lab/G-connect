@@ -237,3 +237,168 @@ body.dark-theme #theme-toggle {
     color: #fff;
     border-color: #555;
                      }
+document.addEventListener("DOMContentLoaded", () => {
+    const noteTitle = document.getElementById("note-title") || document.getElementById("title");
+    const noteText = document.getElementById("note-text") || document.getElementById("content");
+    const saveBtn = document.getElementById("save-btn") || document.getElementById("saveBtn");
+    const clearBtn = document.getElementById("clear-btn") || document.getElementById("clearBtn");
+    const searchNotes = document.getElementById("search-notes") || document.getElementById("search");
+    const notesContainer = document.getElementById("notes-container") || document.getElementById("notes");
+    const themeToggle = document.getElementById("theme-toggle");
+    const downloadBtn = document.getElementById("download-btn") || document.getElementById("backupBtn");
+    const restoreBtn = document.getElementById("restore-btn") || document.getElementById("restoreBtn");
+
+    // लोकल स्टोरेज से रूटीन डेटा लोड करना
+    let routines = JSON.parse(localStorage.getItem("g_daily_routine")) || [];
+
+    // रूटीन लिस्ट को स्क्रीन पर रेंडर करना
+    function renderRoutines(filter = "") {
+        notesContainer.innerHTML = "";
+        
+        const filtered = routines.filter(item => 
+            item.title.toLowerCase().includes(filter.toLowerCase()) || 
+            item.content.toLowerCase().includes(filter.toLowerCase())
+        );
+
+        if (filtered.length === 0) {
+            notesContainer.innerHTML = '<p id="no-notes">कोई डेली रूटीन नहीं मिला। नया टास्क जोड़ें!</p>';
+            return;
+        }
+
+        filtered.forEach((item, index) => {
+            const div = document.createElement("div");
+            div.className = `routine-item ${item.completed ? 'completed' : ''}`;
+            
+            div.innerHTML = `
+                <div class="routine-header">
+                    <h3 class="routine-title">${item.title}</h3>
+                    <span>${item.time || ''}</span>
+                </div>
+                <p class="routine-content">${item.content}</p>
+                <div class="action-btns">
+                    <button class="btn-task btn-complete" onclick="toggleComplete(${index})">
+                        ${item.completed ? '✕ Undo' : '✓ Done'}
+                    </button>
+                    <button class="btn-task btn-delete" onclick="deleteRoutine(${index})">Delete</button>
+                </div>
+            `;
+            notesContainer.appendChild(div);
+        });
+    }
+
+    // नया रूटीन/टास्क जोड़ना
+    saveBtn.addEventListener("click", () => {
+        const title = noteTitle.value.trim();
+        const content = noteText.value.trim();
+
+        if (!title) {
+            alert("कृपया रूटीन का नाम या समय (जैसे: Morning Routine) ज़रूर लिखें!");
+            return;
+        }
+
+        const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        routines.push({ 
+            title, 
+            content, 
+            completed: false,
+            time: currentTime 
+        });
+
+        saveAndRefresh();
+        noteTitle.value = "";
+        noteText.value = "";
+    });
+
+    // टास्क को डन (Complete) मार्क करना
+    window.toggleComplete = (index) => {
+        routines[index].completed = !routines[index].completed;
+        saveAndRefresh();
+    };
+
+    // टास्क डिलीट करना
+    window.deleteRoutine = (index) => {
+        if(confirm("क्या आप इस टास्क को हटाना चाहते हैं?")) {
+            routines.splice(index, 1);
+            saveAndRefresh();
+        }
+    };
+
+    // डेटा सेव और रिफ्रेश करने का कॉमन फंक्शन
+    function saveAndRefresh() {
+        localStorage.setItem("g_daily_routine", JSON.stringify(routines));
+        renderRoutines(searchNotes ? searchNotes.value : "");
+    }
+
+    // इनपुट क्लियर बटन
+    clearBtn.addEventListener("click", () => {
+        noteTitle.value = "";
+        noteText.value = "";
+    });
+
+    // रूटीन सर्च फ़िल्टर
+    if(searchNotes) {
+        searchNotes.addEventListener("input", (e) => {
+            renderRoutines(e.target.value);
+        });
+    }
+
+    // डार्क मोड / लाइट मोड थीम स्विच
+    if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            if (currentTheme === "dark") {
+                document.documentElement.setAttribute("data-theme", "light");
+                themeToggle.textContent = "🌙 Dark Mode";
+            } else {
+                document.documentElement.setAttribute("data-theme", "dark");
+                themeToggle.textContent = "☀️ Light Mode";
+            }
+        });
+    }
+
+    // रूटीन बैकअप डाउनलोड (JSON format)
+    if(downloadBtn) {
+        downloadBtn.addEventListener("click", () => {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(routines));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", "daily_routine_backup.json");
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+        });
+    }
+
+    // बैकअप फ़ाइल रीस्टोर करना
+    if(restoreBtn) {
+        restoreBtn.addEventListener("click", () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsText(file,'UTF-8');
+                reader.onload = readerEvent => {
+                    try {
+                        const content = JSON.parse(readerEvent.target.result);
+                        if (Array.isArray(content)) {
+                            routines = content;
+                            saveAndRefresh();
+                            alert("आपका रूटीन बैकअप रीस्टोर हो गया है!");
+                        } else {
+                            alert("गलत फाइल फॉर्मेट!");
+                        }
+                    } catch (err) {
+                        alert("फाइल लोड करने में एरर आई!");
+                    }
+                }
+            }
+            input.click();
+        });
+    }
+
+    // पहली बार लोड होने पर लिस्ट दिखाना
+    renderRoutines();
+});
